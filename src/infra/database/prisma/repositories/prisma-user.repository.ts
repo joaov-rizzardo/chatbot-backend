@@ -1,4 +1,4 @@
-import { CreateUserDto } from "src/application/dtos/create-user-dto";
+import { CreateUserDto } from "src/application/dtos/user/create-user-dto";
 import { User } from "src/domain/entities/user";
 import { UserRepository } from "src/domain/repositories/user.repository";
 import { PrismaService } from "../prisma.service";

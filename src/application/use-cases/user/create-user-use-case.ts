@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CreateUserDto } from "src/application/dtos/create-user-dto";
+import { CreateUserDto } from "src/application/dtos/user/create-user-dto";
 import { EmailAlreadyExistsError } from "src/domain/errors/user/email-already-exists-error";
 import { UserRepository } from "src/domain/repositories/user.repository";
 import { PasswordHasher } from "src/domain/services/auth/password-hasher";
