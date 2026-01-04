@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { AccessTokenClaims, TokenService } from "src/domain/services/auth/token-service";
+import { AccessTokenClaims, AccessTokenPayload, RefreshTokenPayload, TokenService } from "src/domain/services/auth/token-service";
 import * as jwt from "jsonwebtoken"
 
 @Injectable()
@@ -23,6 +23,24 @@ export class JwtTokenService implements TokenService, OnModuleInit {
         this.refreshTokenSecret = this.configService.get<string>("REFRESH_TOKEN_SECRET") as string
         this.accessTokenExpirationTime = this.configService.get<number>("ACCESS_TOKEN_EXPIRATION_TIME_MS") as number
         this.refreshTokenExpirationTime = this.configService.get<number>("REFRESH_TOKEN_EXPIRATION_TIME_MS") as number
+    }
+
+
+    decodeRefreshToken(token: string): RefreshTokenPayload {
+        const refreshToken = jwt.decode(token) as jwt.JwtPayload;
+        return {
+            userId: refreshToken.sub || ""
+        };
+    }
+    
+    decodeAccessToken(token: string): AccessTokenPayload {
+        const accessToken = jwt.decode(token) as jwt.JwtPayload;
+        return {
+            userId: accessToken.sub || "",
+            email: accessToken.email,
+            lastName: accessToken.lastName,
+            name: accessToken.name
+        };
     }
 
     generateAccessToken(userId: string, claims: AccessTokenClaims): string {

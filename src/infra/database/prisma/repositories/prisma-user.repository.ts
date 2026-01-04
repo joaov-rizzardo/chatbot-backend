@@ -12,6 +12,16 @@ export class PrismaUserRepository implements UserRepository {
         private readonly prismaService: PrismaService,
     ) { }
 
+    async findById(id: string): Promise<User | null> {
+        const result = await this.prismaService.users.findUnique({
+            where: {
+                id
+            }
+        })
+        if (!result) return null
+        return this.plainToUserEntity(result)
+    }
+
     async create(user: CreateUserDto): Promise<User> {
         const result = await this.prismaService.users.create({
             data: {
@@ -23,7 +33,7 @@ export class PrismaUserRepository implements UserRepository {
         })
         return this.plainToUserEntity(result)
     }
-    
+
     async findByEmail(email: string): Promise<User | null> {
         const result = await this.prismaService.users.findFirst({
             where: {
