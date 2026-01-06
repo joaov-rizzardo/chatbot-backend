@@ -37,6 +37,19 @@ export class PrismaSessionRepository implements SessionRepository {
         return this.plainSessionToEntity(result)
     }
 
+    async connectWorkspace(sessionId: string, workspaceId: string): Promise<Session | null> {
+        const result = await this.prisma.sessions.update({
+            data: {
+                workspaceId
+            },
+            where: {
+                id: sessionId
+            }
+        })
+        if(!result) return null
+        return this.plainSessionToEntity(result)
+    }
+
     private plainSessionToEntity(data: PrismaSession) {
         return new Session(
             data.id,

@@ -3,5 +3,6 @@ import { Session } from "../entities/session";
 
 export abstract class SessionRepository {
     abstract create(data: CreateSessionDTO): Promise<Session>
+    abstract connectWorkspace(sessionId: string, workspaceId: string): Promise<Session | null>
     abstract findById(id: string): Promise<Session | null>
 }

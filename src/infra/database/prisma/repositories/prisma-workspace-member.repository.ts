@@ -13,7 +13,7 @@ export class PrismaWorkspaceMemberRepository implements WorkspaceMemberRepositor
         @Optional() private readonly transactionClient?: PrismaTransactionClient
     ) { }
 
-    private get prisma(){
+    private get prisma() {
         return this.transactionClient !== undefined ? this.transactionClient : this.prismaService
     }
 
@@ -25,6 +25,19 @@ export class PrismaWorkspaceMemberRepository implements WorkspaceMemberRepositor
                 role: data.role
             }
         })
+        return this.plainToWorkspaceMemberEntity(result)
+    }
+
+    async findMember(userId: string, workspaceId: string): Promise<WorkspaceMember | null> {
+        const result = await this.prisma.workspaceMembers.findUnique({
+            where: {
+                userId_workspaceId: {
+                    userId,
+                    workspaceId
+                }
+            }
+        })
+        if(!result) return null
         return this.plainToWorkspaceMemberEntity(result)
     }
 

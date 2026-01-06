@@ -10,6 +10,8 @@ import { AuthController } from "../http/auth/auth.controller";
 import { RefreshTokenUseCase } from "src/application/use-cases/auth/refresh-token-use-case";
 import { SessionRepository } from "src/domain/repositories/session.repository";
 import { PrismaSessionRepository } from "../database/prisma/repositories/prisma-session.repository";
+import { WorkspaceMemberRepository } from "src/domain/repositories/workspace-member.repository";
+import { PrismaWorkspaceMemberRepository } from "../database/prisma/repositories/prisma-workspace-member.repository";
 
 @Module({
     providers: [
@@ -30,6 +32,10 @@ import { PrismaSessionRepository } from "../database/prisma/repositories/prisma-
         {
             provide: SessionRepository,
             useClass: PrismaSessionRepository
+        },
+        {
+            provide: WorkspaceMemberRepository,
+            useClass: PrismaWorkspaceMemberRepository
         }
     ],
     controllers: [

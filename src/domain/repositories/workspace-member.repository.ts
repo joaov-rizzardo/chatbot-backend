@@ -3,4 +3,5 @@ import { WorkspaceMember } from "../entities/workspace-member";
 
 export abstract class WorkspaceMemberRepository {
     abstract add(data: AddWorkspaceMemberDTO): Promise<WorkspaceMember>
+    abstract findMember(userId: string, workspaceId: string): Promise<WorkspaceMember | null>
 }
